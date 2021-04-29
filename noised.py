@@ -49,6 +49,7 @@ def add_noise(noise_ratio,inpath,outpath,size=5000):
 
 arglist=sys.argv
 if len(arglist)>3:
-	add_noise(double(arglist[1]),str(arglist[2]),str(arglist[3]))
+	print(arglist[0])
+	add_noise(float(arglist[1]),arglist[2],arglist[3],int(arglist[4]))
 
 

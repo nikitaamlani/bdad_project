@@ -4,7 +4,7 @@ import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
 
 
-val data = spark.read.format("libsvm").load("/user/nga261/project/my_out.txt")
+val data = spark.read.format("libsvm").load("/user/nga261/project/MyData_4t_libsvm.txt")
 
 val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexedLabel").fit(data)
 // Automatically identify categorical features, and index them.
@@ -12,7 +12,10 @@ val labelIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexe
 val featureIndexer = new VectorIndexer().setInputCol("features").setOutputCol("indexedFeatures").setMaxCategories(4).fit(data)
 
 // Split the data into training and test sets (30% held out for testing).
-val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
+
+// val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3)) i commented this out since our datasets are separate now
+val trainingData=spark.read.format("libsvm").load("/user/nga261/project/MyData_4t_libsvm.txt")
+val testData=spark.read.format("libsvm").load("/user/nga261/project/MyData_4v_libsvm.txt")
 
 // Train a RandomForest model.
 val rf = new RandomForestClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setNumTrees(10)
